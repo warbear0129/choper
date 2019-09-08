@@ -60,8 +60,11 @@ def main(shift):
         accepted_dict = {}
 
         for r in result:
-            statusslot = str(r["statusslot"]).strip().lower()
             slotno = str(r["slotno"]).strip()
+            if not slotno.startswith("RA"):
+                continue
+
+            statusslot = str(r["statusslot"]).strip().lower()
             date = "{0}/{1}/{2}".format(str(r["day"].zfill(2)), str(r["month"].zfill(2)), str(r["year"]))
             time = str(r["time"]).strip().upper()
             location = str(r["location"]).strip().upper()
