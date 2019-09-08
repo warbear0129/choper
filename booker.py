@@ -11,7 +11,7 @@ from requests.adapters import HTTPAdapter
 def logout(s, shifttext):
     try:
         print "{0}: Logging out ...".format(shifttext)
-        logout = s.get("https://chopeshift.challenger.sg/login/logout")
+        logout = s.get("https://chopeshift.challenger.sg/login/logout", timeout=10)
         print "{0}: Successfully logged out".format(shifttext)
     except Exception as exc:
         print "{0}: Log out failed with error: {1}".format(shifttext, str(exc))
@@ -47,7 +47,7 @@ def main(shift):
 
         try:
             print "{0}: Getting calendar ...".format(shifttext)
-            calendar = s.get("https://chopeshift.challenger.sg/schedule/scheduleCalendar")
+            calendar = s.get("https://chopeshift.challenger.sg/schedule/scheduleCalendar", timeout=10)
         except Exception as exc:
             print "{0}: Get calendar failed with error: {1}".format(shifttext, str(exc))
             logout(s, shifttext)
@@ -84,7 +84,7 @@ def main(shift):
         for k, v in calendar_dict.iteritems():
             if v == shift:
                 try:
-                    chope = s.post("https://chopeshift.challenger.sg/schedule/book", {"slotNo": k, "extend": None})
+                    chope = s.post("https://chopeshift.challenger.sg/schedule/book", {"slotNo": k, "extend": None}, timeout=10)
                     print "{0}: Shift booked successfully with status code {1} ({2})".format(shifttext, str(chope.status_code), str(chope.text))
                     found = True
                     break
